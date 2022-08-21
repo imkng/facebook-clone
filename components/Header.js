@@ -6,8 +6,11 @@ import { MdOutlineOndemandVideo, MdOutlineExpandMore } from "react-icons/md";
 import { AiOutlineShop, AiFillMessage, AiFillBell } from "react-icons/ai";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { CgMenuGridO } from "react-icons/cg";
+import { signOut, useSession } from "next-auth/react";
+import { userAgent } from "next/server";
 
 const Header = () => {
+  const {data: session} =  useSession();
   return (
     <div className="bg-white flex items-center p-2 shadow-md top-0 sticky z-50 h-16">
       {/* Left */}
@@ -48,12 +51,14 @@ const Header = () => {
       {/* Right */}
       <div className="flex items-center justify-end min-w-fit space-x-2">
         <Image
-          src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/225px-Facebook_f_logo_%282021%29.svg.png"
+          src= {session?.user.image}
           height={40}
           width={40}
+          className = "rounded-full cursor-pointer"
+          onClick={signOut}
         />
         <p className="hidden xl:inline-flex font-semibold text-sm whitespace-nowrap p-3 max-w-xs">
-          Krishna
+          {session?.user.name.split(" ")[0]}
         </p>
         <CgMenuGridO
           size={20}
